@@ -1,6 +1,7 @@
 import { Component } from "react";
 
 import ContactForm from "./ContactForm/ContactForm";
+import {ContactFormik} from "./ContactForm/ContactFormik";
 import ContactList from "./ContactList/ContactList.js";
 import Filter from "./Filter/Filter"
 import GlobalStyle from "./GlobalStyle";
@@ -10,7 +11,10 @@ import { Layout } from "./Layout";
 
 export class App extends Component {
   state = {
-    contacts: [],
+    contacts: [{id: 'id-1', name: 'Rosie Simpson', number: '459-12-56'},
+    {id: 'id-2', name: 'Hermione Kline', number: '443-89-12'},
+    {id: 'id-3', name: 'Eden Clements', number: '645-17-79'},
+    {id: 'id-4', name: 'Annie Copeland', number: '227-91-26'},],
     filter: '',
   }
 
@@ -27,14 +31,14 @@ export class App extends Component {
     return contactsName.includes(normalizedName)
   }
 
-  handlerSubmitForm = (contact) => {
+  handlerSubmitForm = (newContact) => {
 
-    if(this.isNameInContacts(contact.name)) {
-      return alert(`${contact.name} is already in contacts`)
+    if(this.isNameInContacts(newContact.name)) {
+      return alert(`${newContact.name} is already in contacts`)
     }
 
     this.setState(prevState => ({
-        contacts: [ contact, ...prevState.contacts ],
+        contacts: [ newContact, ...prevState.contacts ],
       })
     );
   }
@@ -64,6 +68,7 @@ export class App extends Component {
         <h1> PhoneBook </h1>
         <ContactForm 
             onSubmit={this.handlerSubmitForm} />
+        <ContactFormik onSubmit={this.handlerSubmitForm} />
         <h2> Contacts </h2>
         <Filter 
           value={filter} 
@@ -77,3 +82,4 @@ export class App extends Component {
     );
   };
 };
+
